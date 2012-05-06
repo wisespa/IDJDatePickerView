@@ -1,8 +1,6 @@
 //
-//  IDJDatePickerView.h
+//  IDJDatePickerViewSimple.h
 //
-//  Created by Lihaifeng on 11-11-22, QQ:61673110.
-//  Copyright (c) 2011年 www.idianjing.com. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,7 +9,7 @@
 #define DEFAULT_YEAR 2000
 #define MAX_YEAR 2100
 
-@interface IDJDatePickerViewWithoutYear : UIView<IDJPickerViewDelegate>{
+@interface IDJDatePickerViewSimple : UIView<IDJPickerViewDelegate>{
     int year;    
     int month;
     int day;

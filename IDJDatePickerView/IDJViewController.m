@@ -8,6 +8,7 @@
 
 #import "IDJViewController.h"
 #import "IDJTimePickerView.h"
+#import "IDJDatePickerViewSimple.h"
 
 @implementation IDJViewController
 
@@ -22,16 +23,30 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     //公历日期选择器
-    IDJDatePickerView *djdateGregorianView=[[IDJDatePickerView alloc]initWithFrame:CGRectMake(10, 10, 300, 200) type:Gregorian1];
-    [self.view addSubview:djdateGregorianView];
-    djdateGregorianView.delegate=self;
-    [djdateGregorianView release];
+    IDJDatePickerViewSimple *noYearView=[[IDJDatePickerViewSimple alloc]initWithFrame:CGRectMake(10, 10, 300, 200) showYear:NO];
+    [self.view addSubview:noYearView];
+    [noYearView release];
+    
+//    [noYearView setDate:0 month:3 day:15];
+
+    IDJDatePickerViewSimple *yearView=[[IDJDatePickerViewSimple alloc]initWithFrame:CGRectMake(10, 10+200+10, 300, 200) showYear:YES];
+    [self.view addSubview:yearView];
+    [yearView release];
+    
+//    [noYearView setDate:1979 month:3 day:15];
+
+    
+    //公历日期选择器
+//    IDJDatePickerView *djdateGregorianView=[[IDJDatePickerView alloc]initWithFrame:CGRectMake(10, 10, 300, 200) type:Gregorian1];
+//    [self.view addSubview:djdateGregorianView];
+//    djdateGregorianView.delegate=self;
+//    [djdateGregorianView release];
     
     //农历日期选择器
-    IDJDatePickerView *djdateChineseView=[[IDJDatePickerView alloc]initWithFrame:CGRectMake(10, 10+200+10, 300, 200) type:Chinese1];
-    [self.view addSubview:djdateChineseView];
-    djdateChineseView.delegate=self;
-    [djdateChineseView release];
+//    IDJDatePickerView *djdateChineseView=[[IDJDatePickerView alloc]initWithFrame:CGRectMake(10, 10+200+10, 300, 200) type:Chinese1];
+//    [self.view addSubview:djdateChineseView];
+//    djdateChineseView.delegate=self;
+//    [djdateChineseView release];
     
 //    //时间选择器
 //    IDJTimePickerView *timePickerView=[[IDJTimePickerView alloc]initWithFrame:CGRectMake(10, 10, 300, 200)];

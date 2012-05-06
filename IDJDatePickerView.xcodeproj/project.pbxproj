@@ -33,6 +33,7 @@
 		3CB25C8A1487DC190019B023 /* ChineseDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB25C711487DC190019B023 /* ChineseDate.cpp */; };
 		3CB25C8B1487DC190019B023 /* SolarDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB25C731487DC190019B023 /* SolarDate.cpp */; };
 		3CB25C8F1488C0950019B023 /* IDJTimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB25C8E1488C0950019B023 /* IDJTimePickerView.m */; };
+		C6C4E23D1556E1AF005C37F3 /* IDJDatePickerViewSimple.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C4E23C1556E1AF005C37F3 /* IDJDatePickerViewSimple.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,8 @@
 		3CB25C741487DC190019B023 /* SolarDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolarDate.h; sourceTree = "<group>"; };
 		3CB25C8D1488C0950019B023 /* IDJTimePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDJTimePickerView.h; sourceTree = "<group>"; };
 		3CB25C8E1488C0950019B023 /* IDJTimePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDJTimePickerView.m; sourceTree = "<group>"; };
+		C6C4E23B1556E1AF005C37F3 /* IDJDatePickerViewSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; path = IDJDatePickerViewSimple.h; sourceTree = "<group>"; };
+		C6C4E23C1556E1AF005C37F3 /* IDJDatePickerViewSimple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDJDatePickerViewSimple.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,8 @@
 				3CB25C571487DC190019B023 /* IDJChineseCalendar.mm */,
 				3CB25C581487DC190019B023 /* IDJDatePickerView.h */,
 				3CB25C591487DC190019B023 /* IDJDatePickerView.m */,
+				C6C4E23B1556E1AF005C37F3 /* IDJDatePickerViewSimple.h */,
+				C6C4E23C1556E1AF005C37F3 /* IDJDatePickerViewSimple.m */,
 			);
 			path = datepicker;
 			sourceTree = "<group>";
@@ -296,6 +301,7 @@
 				3CB25C8A1487DC190019B023 /* ChineseDate.cpp in Sources */,
 				3CB25C8B1487DC190019B023 /* SolarDate.cpp in Sources */,
 				3CB25C8F1488C0950019B023 /* IDJTimePickerView.m in Sources */,
+				C6C4E23D1556E1AF005C37F3 /* IDJDatePickerViewSimple.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
