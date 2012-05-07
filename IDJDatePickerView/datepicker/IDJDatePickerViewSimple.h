@@ -18,6 +18,9 @@
     BOOL showYear;
 }
 - (id)initWithFrame:(CGRect)frame;
-- (void)showYear: (BOOL) isShowYear;
+- (void)showYearColumn: (BOOL) isShowYear;
 - (void)setDate: (NSInteger) year month: (NSInteger) month day: (NSInteger) day;
+
+// UI only change after call this method
+- (void) scroll;
 @end

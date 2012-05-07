@@ -425,6 +425,8 @@
     [picker_selection_left release];
     [picker_selection_right release];
     [picker_selection_center release];
+    
+    [super dealloc];
 }
 
 @end

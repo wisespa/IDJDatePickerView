@@ -23,7 +23,7 @@
         year = DEFAULT_YEAR;
         month = 1;
         day = 1;
-        picker=[[IDJPickerView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) dataLoop:YES];
+        picker=[[IDJPickerView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) dataLoop:NO];
         picker.delegate=self;
         [self addSubview:picker];
         
@@ -34,16 +34,26 @@
     return self;
 }
 
-- (void)showYear: (BOOL) isShowYear {
+- (void)showYearColumn: (BOOL) isShowYear {
     if (showYear == isShowYear) {
         return;
     }
     showYear = isShowYear;
     [picker reloadScroll:0];
+}
 
-    if(showYear) {
-        [picker selectCell: DEFAULT_YEAR - MIN_YEAR inScroll:0];
-    } 
+- (NSInteger) daysOfGregorianMonth: (NSInteger) theMonth {
+    NSInteger result = 0;
+    if(theMonth == 1 || theMonth == 3 || theMonth == 5 || theMonth == 7
+       || theMonth == 8 || theMonth == 10 || theMonth == 12) {
+        result = 31;
+    } else if (theMonth == 2) {
+        result = 29;
+    } else {
+        result = 30;
+    }
+
+    return result;
 }
 
 #pragma mark -The function callback of IDJPickerView-
@@ -62,14 +72,7 @@
             result = 12;//month
             break;
         case 2:
-            if(month == 1 || month == 3 || month == 5 || month == 7
-               || month == 8 || month == 10 || month == 12) {
-                result = 31;
-            } else if (month == 2) {
-                result = 29;
-            } else {
-                result = 30;
-            }
+            result = [self daysOfGregorianMonth:month];
             break;
         default:
             break;
@@ -144,24 +147,31 @@
     [picker reloadScroll:2];
     int maxDays = [self numberOfCellsInScroll:2];
     if (day > maxDays) {
-        day = 1;//假如用户上次选择的是1月31日，当月份变为2月的时候，第三列的滚轮不可能再选中31日，我们设置默认的值为第一个
+        day = maxDays;
     }
+    [picker selectCell:day - 1 inScroll:2];
+}
+
+- (void) scroll {
+    if(showYear && year >= MIN_YEAR) {
+        [picker selectCell: year - MIN_YEAR inScroll:0];
+    } 
+    [picker selectCell:month - 1 inScroll:1];
     [picker selectCell:day - 1 inScroll:2];
 }
 
 - (void)setDate: (NSInteger) newYear month:(NSInteger) newMonth day: (NSInteger) newDay {
     year = newYear;
-    month = newMonth;
     day = newDay;
     
-    [picker reloadScroll:1];
-    [picker reloadScroll:2];
-    
-    if (showYear) {
-        [picker selectCell:year - MIN_YEAR inScroll:1];
+    if (month != newMonth) {
+        int oldMonth = month;
+        month = newMonth;
+
+        if ([self daysOfGregorianMonth:oldMonth] != [self daysOfGregorianMonth:newMonth]) {
+            [picker reloadScroll:2]; // reload days
+        }
     }
-    [picker selectCell:month - 1 inScroll:1];
-    [picker selectCell:day - 1 inScroll:2];
 }
 
 #pragma mark -dealloc-
