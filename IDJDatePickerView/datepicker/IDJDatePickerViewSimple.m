@@ -15,26 +15,35 @@
 @implementation IDJDatePickerViewSimple
 
 #pragma mark -init method-
-- (id)initWithFrame:(CGRect)frame showYear: (BOOL) isShowYear
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor=[UIColor clearColor];
-        showYear = isShowYear;
         year = DEFAULT_YEAR;
         month = 1;
         day = 1;
         picker=[[IDJPickerView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) dataLoop:YES];
         picker.delegate=self;
         [self addSubview:picker];
+        
         //程序启动后，我们需要让三个滚轮显示为当前的日期
-        if(showYear) {
-            [picker selectCell: DEFAULT_YEAR - MIN_YEAR inScroll:0];
-        }
         [picker selectCell: month - 1 inScroll:1];
         [picker selectCell: day - 1 inScroll:2];
     }
     return self;
+}
+
+- (void)showYear: (BOOL) isShowYear {
+    if (showYear == isShowYear) {
+        return;
+    }
+    showYear = isShowYear;
+    [picker reloadScroll:0];
+
+    if(showYear) {
+        [picker selectCell: DEFAULT_YEAR - MIN_YEAR inScroll:0];
+    } 
 }
 
 #pragma mark -The function callback of IDJPickerView-
@@ -145,6 +154,7 @@
     month = newMonth;
     day = newDay;
     
+    [picker reloadScroll:1];
     [picker reloadScroll:2];
     
     if (showYear) {

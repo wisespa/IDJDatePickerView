@@ -23,17 +23,19 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     //公历日期选择器
-    IDJDatePickerViewSimple *noYearView=[[IDJDatePickerViewSimple alloc]initWithFrame:CGRectMake(10, 10, 300, 200) showYear:NO];
+    IDJDatePickerViewSimple *noYearView=[[IDJDatePickerViewSimple alloc]initWithFrame:CGRectMake(10, 10, 300, 200)];
+    [noYearView showYear:NO];
     [self.view addSubview:noYearView];
     [noYearView release];
     
-//    [noYearView setDate:0 month:3 day:15];
+    [noYearView setDate:0 month:3 day:15];
 
-    IDJDatePickerViewSimple *yearView=[[IDJDatePickerViewSimple alloc]initWithFrame:CGRectMake(10, 10+200+10, 300, 200) showYear:YES];
+    IDJDatePickerViewSimple *yearView=[[IDJDatePickerViewSimple alloc]initWithFrame:CGRectMake(10, 10+200+10, 300, 200)];
+    [yearView showYear:YES];
     [self.view addSubview:yearView];
     [yearView release];
     
-//    [noYearView setDate:1979 month:3 day:15];
+    [yearView setDate:1979 month:3 day:15];
 
     
     //公历日期选择器
