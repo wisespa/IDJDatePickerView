@@ -13,6 +13,7 @@
 @end
 
 @implementation IDJDatePickerViewSimple
+@synthesize year, month, day;
 
 #pragma mark -init method-
 - (id)initWithFrame:(CGRect)frame
@@ -40,6 +41,14 @@
     }
     showYear = isShowYear;
     [picker reloadScroll:0];
+}
+
+- (void)setChineseCalendar: (BOOL) chinese {
+    if (isChinese == chinese) {
+        return;
+    }
+    isChinese = chinese;
+    [picker reloadScroll:2];
 }
 
 - (NSInteger) daysOfGregorianMonth: (NSInteger) theMonth {
@@ -72,7 +81,11 @@
             result = 12;//month
             break;
         case 2:
-            result = [self daysOfGregorianMonth:month];
+            if (isChinese) {
+                result = 30;
+            } else {
+                result = [self daysOfGregorianMonth:month];
+            }
             break;
         default:
             break;
@@ -83,7 +96,7 @@
 
 //指定每一列滚轮所占整体宽度的比例，以:分隔
 - (NSString *)scrollWidthProportion {
-    return @"1:1:1";
+    return @"1:2:1";
 }
 
 //指定有多少个Cell显示在可视区域
@@ -99,12 +112,13 @@
     switch (scroll) {
         case 0:{
             if (showYear) {
-                tc.textLabel.text=[NSString stringWithFormat:NSLocalizedString(@"%d", nil) , cell + MIN_YEAR];
+                tc.textLabel.text=[NSString stringWithFormat:@"%d", cell + MIN_YEAR];
             }
             break;
         }
         case 1:{
-            tc.textLabel.text=[NSString stringWithFormat:NSLocalizedString(@"Month%d", nil) , cell+1];
+            NSString* monthTxt = [NSString stringWithFormat:@"Month%d" , cell+1];
+            tc.textLabel.text= NSLocalizedString(monthTxt, nil);
             break;
         }
         case 2:{
@@ -157,6 +171,11 @@
         [picker selectCell: year - MIN_YEAR inScroll:0];
     } 
     [picker selectCell:month - 1 inScroll:1];
+    
+    int maxDays = [self numberOfCellsInScroll:2];
+    if (day > maxDays) {
+        day = maxDays;
+    }
     [picker selectCell:day - 1 inScroll:2];
 }
 
@@ -165,12 +184,13 @@
     day = newDay;
     
     if (month != newMonth) {
-        int oldMonth = month;
         month = newMonth;
+        [picker reloadScroll:2]; // reload days
 
-        if ([self daysOfGregorianMonth:oldMonth] != [self daysOfGregorianMonth:newMonth]) {
-            [picker reloadScroll:2]; // reload days
-        }
+        //if not chinese calendar & days not equal, reload
+//        if (!isChinese && [self daysOfGregorianMonth:oldMonth] != [self daysOfGregorianMonth:newMonth]) {
+//            [picker reloadScroll:2]; // reload days
+//        }
     }
 }
 
