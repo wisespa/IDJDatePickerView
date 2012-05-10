@@ -7,6 +7,7 @@
 
 #import "IDJPickerView.h"
 #import "IDJScrollComponent.h"
+#import "UIImage+Resize.h"
 
 //私有方法
 @interface IDJPickerView (Private)
@@ -93,7 +94,12 @@
 //设置背景
 - (void)_setBackgroundImage {
     UIImageView *bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    bgImage.image=[self.bg resizableImageWithCapInsets:UIEdgeInsetsMake(self.bg.size.height/2, self.bg.size.width/2, self.bg.size.height/2, self.bg.size.width/2)];
+    if ([UIImage respondsToSelector:@selector(resizableImageWithCapInsets:)]) {
+        bgImage.image=[self.bg resizableImageWithCapInsets:UIEdgeInsetsMake(self.bg.size.height/2, self.bg.size.width/2, self.bg.size.height/2, self.bg.size.width/2)];
+    } else {
+        bgImage.image = self.bg;
+    }
+    
     [self addSubview:bgImage];
     [bgImage release];
 }
@@ -114,7 +120,12 @@
     
     //中间平铺
     wheelCenterView=[[UIImageView alloc]initWithFrame:CGRectMake(wheelLeftView.frame.origin.x+wheelLeftView.frame.size.width, wheelLeftView.frame.origin.y, wheelRightView.frame.origin.x-(wheelLeftView.frame.origin.x+wheelLeftView.frame.size.width), self.picker_wheel_center.size.height)];
-    wheelCenterView.image=[self.picker_wheel_center resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    if ([UIImage respondsToSelector:@selector(resizableImageWithCapInsets:)]) {
+        wheelCenterView.image=[self.picker_wheel_center resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    } else {
+        wheelCenterView.image=self.picker_wheel_center;
+    }
+
     [self addSubview:wheelCenterView];
     //因为滚轮的长度为了方便计算，会按照其实际大小显示，因此会远大于父视图_wheelCenterView的高度，所以需要对子视图做裁减
     wheelCenterView.clipsToBounds=YES;
@@ -260,7 +271,13 @@
     
     //中间平铺
     UIImageView *selectionCenterView=[[UIImageView alloc]initWithFrame:CGRectMake(selectionLeftView.frame.origin.x+selectionLeftView.frame.size.width, selectionY, selectionRightView.frame.origin.x-(selectionLeftView.frame.origin.x+selectionLeftView.frame.size.width), self.picker_selection_center.size.height)];
-    selectionCenterView.image=[self.picker_selection_center resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    if ([UIImage respondsToSelector:@selector(resizableImageWithCapInsets:)]) {
+        selectionCenterView.image = [self.picker_selection_center resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    } else {
+        selectionCenterView.image =self.picker_selection_center;
+    }
+
     selectionCenterView.alpha=0.5;
     [self addSubview:selectionCenterView];
     [selectionCenterView release];
