@@ -177,12 +177,14 @@
 }
 
 - (void) scroll {
-    if(showYear && year >= MIN_YEAR) {
-        if (year <= MAX_YEAR) {
-            [picker selectCell: year - MIN_YEAR inScroll:0];
-        } else {
-            [picker selectCell: MAX_YEAR - MIN_YEAR inScroll:0];
+    if(showYear) {
+        if (year > MAX_YEAR) {
+            year = MAX_YEAR;
+        } else if(year < MIN_YEAR) {
+            year = MIN_YEAR;
         }
+        
+        [picker selectCell: year - MIN_YEAR inScroll:0];
     } 
     
     int maxMonths = [self numberOfCellsInScroll:1];
@@ -208,15 +210,6 @@
     year = newYear;
     day = newDay;
     month = newMonth;
-
-//    if (month != newMonth) {
-//        [picker reloadScroll:2]; // reload days
-
-        //if not chinese calendar & days not equal, reload
-//        if (!isChinese && [self daysOfGregorianMonth:oldMonth] != [self daysOfGregorianMonth:newMonth]) {
-//            [picker reloadScroll:2]; // reload days
-//        }
-//    }
 }
 
 #pragma mark -dealloc-
