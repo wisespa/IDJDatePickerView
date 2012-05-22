@@ -51,13 +51,17 @@
     [picker reloadScroll:2];
 }
 
-- (NSInteger) daysOfGregorianMonth: (NSInteger) theMonth {
+- (NSInteger) daysOfGregorianMonth: (NSInteger) theMonth year: (NSInteger) theYear {
     NSInteger result = 0;
     if(theMonth == 1 || theMonth == 3 || theMonth == 5 || theMonth == 7
        || theMonth == 8 || theMonth == 10 || theMonth == 12) {
         result = 31;
     } else if (theMonth == 2) {
-        result = 29;
+        if (theYear % 400 == 0 || (theYear % 4 == 0 && theYear % 100 != 0)) {
+            result = 29;
+        } else {
+            result = 28;
+        }
     } else {
         result = 30;
     }
@@ -84,7 +88,12 @@
             if (isChinese) {
                 result = 30;
             } else {
-                result = [self daysOfGregorianMonth:month];
+                if(showYear) {
+                    result = [self daysOfGregorianMonth:month year:year];
+                } else {
+                    result = [self daysOfGregorianMonth:month year:0];
+                }
+
             }
             break;
         default:
@@ -140,6 +149,7 @@
     switch (scroll) {
         case 0:
             year = MIN_YEAR + cell;
+            [self changeDays];
             break;
         case 1:{
             month = cell + 1;
@@ -157,7 +167,7 @@
 
 #pragma mark -Calendar Data Handle-
 //动态改变日期列表
-- (void)changeDays{
+- (void)changeDays {
     [picker reloadScroll:2];
     int maxDays = [self numberOfCellsInScroll:2];
     if (day > maxDays) {
@@ -168,30 +178,45 @@
 
 - (void) scroll {
     if(showYear && year >= MIN_YEAR) {
-        [picker selectCell: year - MIN_YEAR inScroll:0];
+        if (year <= MAX_YEAR) {
+            [picker selectCell: year - MIN_YEAR inScroll:0];
+        } else {
+            [picker selectCell: MAX_YEAR - MIN_YEAR inScroll:0];
+        }
     } 
+    
+    int maxMonths = [self numberOfCellsInScroll:1];
+    if (month > maxMonths) {
+        month = maxMonths;
+    } else if(month <= 0) {
+        month = 1;
+    }
+
     [picker selectCell:month - 1 inScroll:1];
     
     int maxDays = [self numberOfCellsInScroll:2];
     if (day > maxDays) {
         day = maxDays;
+    } else if(day <= 0) {
+        day = 1;
     }
+    
     [picker selectCell:day - 1 inScroll:2];
 }
 
 - (void)setDate: (NSInteger) newYear month:(NSInteger) newMonth day: (NSInteger) newDay {
     year = newYear;
     day = newDay;
-    
-    if (month != newMonth) {
-        month = newMonth;
-        [picker reloadScroll:2]; // reload days
+    month = newMonth;
+
+//    if (month != newMonth) {
+//        [picker reloadScroll:2]; // reload days
 
         //if not chinese calendar & days not equal, reload
 //        if (!isChinese && [self daysOfGregorianMonth:oldMonth] != [self daysOfGregorianMonth:newMonth]) {
 //            [picker reloadScroll:2]; // reload days
 //        }
-    }
+//    }
 }
 
 #pragma mark -dealloc-
